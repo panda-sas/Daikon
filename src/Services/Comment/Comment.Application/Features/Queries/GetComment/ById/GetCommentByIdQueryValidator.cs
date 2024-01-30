@@ -1,17 +1,16 @@
-
 using FluentValidation;
 
-namespace Project.Application.Features.Queries.GetProject.ById
+namespace Comment.Application.Features.Queries.GetComment.ById
 {
-    public class GetProjectByIdQueryValidator : AbstractValidator<GetProjectByIdQuery>
+    public class GetCommentByIdQueryValidator : AbstractValidator<GetCommentByIdQuery>
     {
-        public GetProjectByIdQueryValidator()
+        public GetCommentByIdQueryValidator()
         {
             RuleFor(g => g.Id)
             .NotEmpty().WithMessage("{Id} is required")
             .NotNull()
             .NotEqual(Guid.Empty).WithMessage("{Id} is required");
         }
- 
+        
     }
 }

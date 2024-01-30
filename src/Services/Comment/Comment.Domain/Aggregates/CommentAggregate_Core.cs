@@ -8,6 +8,8 @@ namespace Comment.Domain.Aggregates
         private bool _active;
         private Guid _resourceId;
 
+        private string _Topic;
+
         public CommentAggregate()
         {
 
@@ -20,6 +22,7 @@ namespace Comment.Domain.Aggregates
             _active = true;
             _id = CommentCreatedEvent.Id;
             _resourceId = CommentCreatedEvent.ResourceId;
+            _Topic = CommentCreatedEvent.Topic;
 
             RaiseEvent(CommentCreatedEvent);
             
@@ -30,6 +33,7 @@ namespace Comment.Domain.Aggregates
             _active = true;
             _id = @event.Id;
             _resourceId = @event.ResourceId;
+            _Topic = @event.Topic;
         }
 
         /* Update Comment */
@@ -43,6 +47,7 @@ namespace Comment.Domain.Aggregates
 
             // CommentUpdatedEvent doesn't allow resourceId to be changed.
             CommentUpdatedEvent.ResourceId = _resourceId;
+            CommentUpdatedEvent.Topic = _Topic;
 
             RaiseEvent(CommentUpdatedEvent);
         }
