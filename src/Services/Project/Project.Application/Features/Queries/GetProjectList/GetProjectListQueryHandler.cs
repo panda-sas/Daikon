@@ -23,9 +23,9 @@ namespace Project.Application.Features.Queries.GetProjectList
         {
             try
             {
-                var haS = await _projectRepository.GetProjectList();
+                var projectS = await _projectRepository.GetProjectList();
 
-                return _mapper.Map<List<ProjectListVM>>(haS);
+                return _mapper.Map<List<ProjectListVM>>(projectS);
             }
             catch (RepositoryException ex)
             {
