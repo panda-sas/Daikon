@@ -3,55 +3,47 @@ using CQRS.Core.Exceptions;
 using CQRS.Core.Handlers;
 using Daikon.Events.Comment;
 using Comment.Application.Contracts.Persistence;
-using Comment.Application.Features.Commands.UpdateComment;
 using Comment.Domain.Aggregates;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Comment.Application.Features.Commands.UpdateComment
+namespace Comment.Application.Features.Commands.UpdateCommentReply
 {
-    public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand, Unit>
+    public class UpdateCommentReplyCommandHandler : IRequestHandler<UpdateCommentReplyCommand, Unit>
     {
         private readonly IMapper _mapper;
-        private readonly ILogger<UpdateCommentCommandHandler> _logger;
-        private readonly ICommentRepository _commentRepository;
+        private readonly ILogger<UpdateCommentReplyCommandHandler> _logger;
+        private readonly ICommentReplyRepository _commentReplyRepository;
         private readonly IEventSourcingHandler<CommentAggregate> _commentEventSourcingHandler;
 
-        public UpdateCommentCommandHandler(ILogger<UpdateCommentCommandHandler> logger,
+        public UpdateCommentReplyCommandHandler(ILogger<UpdateCommentReplyCommandHandler> logger,
             IEventSourcingHandler<CommentAggregate> commentEventSourcingHandler,
-            ICommentRepository commentRepository,
+            ICommentReplyRepository commentReplyRepository,
             IMapper mapper)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _commentRepository = commentRepository ?? throw new ArgumentNullException(nameof(commentRepository));
+            _commentReplyRepository = commentReplyRepository ?? throw new ArgumentNullException(nameof(commentReplyRepository));
             _commentEventSourcingHandler = commentEventSourcingHandler ?? throw new ArgumentNullException(nameof(commentEventSourcingHandler));
         }
 
-        public async Task<Unit> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateCommentReplyCommand request, CancellationToken cancellationToken)
         {
-            var commentUpdatedEvent = _mapper.Map<CommentUpdatedEvent>(request);
-
             try
             {
+                var commentReplyUpdatedEvent = _mapper.Map<CommentReplyUpdatedEvent>(request);
+
                 var aggregate = await _commentEventSourcingHandler.GetByAsyncId(request.Id);
 
-                aggregate.UpdateComment(commentUpdatedEvent);
+                aggregate.UpdateCommentReply(commentReplyUpdatedEvent);
 
                 await _commentEventSourcingHandler.SaveAsync(aggregate);
             }
             catch (AggregateNotFoundException ex)
             {
                 _logger.LogWarning(ex, "Aggregate not found");
-                throw new ResourceNotFoundException(nameof(CommentAggregate), request.Id); ;
+                throw new ResourceNotFoundException(nameof(CommentAggregate), request.Id);
             }
-
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while handling UpdateCommentCommandHandler");
-                throw;
-            }
-
             return Unit.Value;
         }
     }

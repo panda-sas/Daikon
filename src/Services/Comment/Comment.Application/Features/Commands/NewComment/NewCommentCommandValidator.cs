@@ -1,12 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using FluentValidation;
 
 namespace Comment.Application.Features.Commands.NewComment
 {
-    public class NewCommentCommandValidator
+    public class NewCommentCommandValidator : AbstractValidator<NewCommentCommand>
     {
+        public NewCommentCommandValidator()
+        {
+            
+            RuleFor(t => t.ResourceId)
+            .NotEmpty().WithMessage("{ResourceId} is required")
+            .NotNull();
+
+        }
         
     }
+    
 }

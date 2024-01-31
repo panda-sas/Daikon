@@ -1,12 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CQRS.Core.Command;
+using MediatR;
 
 namespace Comment.Application.Features.Commands.DeleteComment
 {
-    public class DeleteCommentCommand
+    public class DeleteCommentCommand : BaseCommand, IRequest<Unit>
     {
+        public Guid ResourceId { get; set; }
+        public string Topic { get; set; }
+        
         
     }
 }
