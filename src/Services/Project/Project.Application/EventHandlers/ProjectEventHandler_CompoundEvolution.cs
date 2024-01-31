@@ -32,7 +32,7 @@ namespace Project.Application.EventHandlers
             }
             catch (RepositoryException ex)
             {
-                throw new EventHandlerException(nameof(EventHandler), "Error occurred while creating ha compound evolution run for ProjectCompoundEvolutionAddedEvent", ex);
+                throw new EventHandlerException(nameof(EventHandler), "Error occurred while creating project compound evolution run for ProjectCompoundEvolutionAddedEvent", ex);
             }
         }
 
@@ -43,7 +43,7 @@ namespace Project.Application.EventHandlers
 
             if (existingProjectCompoundEvolution == null)
             {
-                throw new EventHandlerException(nameof(EventHandler), $"Error occurred while updating ha compound evolution {@event.CompoundEvolutionId} for ProjectCompoundEvolutionUpdatedEvent", new Exception("Project compound evolution not found"));
+                throw new EventHandlerException(nameof(EventHandler), $"Error occurred while updating project compound evolution {@event.CompoundEvolutionId} for ProjectCompoundEvolutionUpdatedEvent", new Exception("Project compound evolution not found"));
             }
 
             var compoundEvolution = _mapper.Map<Domain.Entities.ProjectCompoundEvolution>(@event);
@@ -59,7 +59,7 @@ namespace Project.Application.EventHandlers
             }
             catch (RepositoryException ex)
             {
-                throw new EventHandlerException(nameof(EventHandler), $"Error occurred while updating ha compound evolution {@event.CompoundEvolutionId} for ProjectCompoundEvolutionUpdatedEvent", ex);
+                throw new EventHandlerException(nameof(EventHandler), $"Error occurred while updating project compound evolution {@event.CompoundEvolutionId} for ProjectCompoundEvolutionUpdatedEvent", ex);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Project.Application.EventHandlers
             }
             catch (RepositoryException ex)
             {
-                throw new EventHandlerException(nameof(EventHandler), $"Error occurred while deleting ha compound evolution {@event.Id} for ProjectCompoundEvolutionDeletedEvent", ex);
+                throw new EventHandlerException(nameof(EventHandler), $"Error occurred while deleting project compound evolution {@event.Id} for ProjectCompoundEvolutionDeletedEvent", ex);
             }
         }
     }
